@@ -84,6 +84,47 @@ async function buscarPorInput() {
 
   await evaluarProducto(producto);
 }
+let html5QrCode = null;
+
+function iniciarEscaner() {
+  const lector = document.getElementById("lector-camara");
+  lector.style.display = "block";
+
+  html5QrCode = new Html5Qrcode("lector-camara");
+
+  html5QrCode.start(
+    { facingMode: "environment" },
+    { fps: 10, qrbox: { width: 250, height: 150 } },
+    (codigoDecodificado) => {
+      detenerEscaner();
+      procesarCodigoEscaneado(codigoDecodificado);
+    },
+    (error) => {}
+  ).catch((err) => {
+    alert("No se pudo acceder a la cámara: " + err);
+  });
+}
+
+function detenerEscaner() {
+  if (html5QrCode) {
+    html5QrCode.stop().then(() => {
+      document.getElementById("lector-camara").style.display = "none";
+    });
+  }
+}
+
+async function procesarCodigoEscaneado(codigo) {
+  mostrarSemaforo();
+  const producto = await buscarProductoPorCodigo(codigo);
+
+  if (!producto) {
+    ocultarSemaforo();
+    mostrarResultadoSimple("⚠️ No encontrado", "No se encontró ningún producto con ese código de barras.");
+    return;
+  }
+
+  await evaluarProducto(producto);
+}
 
 // ---- Resultado persistente (debajo del buscador) ----
 function mostrarResultadoSimple(estadoTexto, texto) {

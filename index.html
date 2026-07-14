@@ -40,14 +40,17 @@
   <div class="cc-verificador">
     <p class="cc-sec-title">Verificador de alimentos</p>
     <p class="cc-sub">Seleccioná tu perfil y escribí un alimento.</p>
+  
 
-    <!-- Escáner para celular -->
+   <!-- Escáner para celular -->
     <div class="cc-scan-mobile">
-      <button class="cc-scan-btn" onclick="alert('Acá vamos a abrir la cámara')">
+      <button class="cc-scan-btn" onclick="iniciarEscaner()"></button>
+       <div id="lector-camara" style="display:none; margin-top:12px; border-radius:12px; overflow:hidden;"></div>
         <i>📷</i>
         <span>Escanear código de barras</span>
       </button>
     </div>
+    
 
     <!-- Input manual para compu -->
     <div class="cc-scan-desktop">
@@ -165,6 +168,7 @@
 </div>
 
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script src="https://unpkg.com/html5-qrcode"></script>
 <script src="script.js"></script>
 </body>
 </html>
